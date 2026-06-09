@@ -6,3 +6,6 @@ pyclustering
 scipy
 matplotlib
 seaborn
+streamlit
+plotly
+joblib
