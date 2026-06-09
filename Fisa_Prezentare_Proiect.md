@@ -57,10 +57,24 @@ Pregătire pentru întrebările dificile ale profesorului:
 
 ---
 
-## 4. Structura Fișierelor din Workspace pentru Prezentare
+## 4. Aplicația Web Interactivă pe Google Cloud Run (Efectul "WOW")
+
+Pentru o prezentare interactivă de excepție, proiectul a fost containerizat și publicat în cloud. Profesorul poate testa algoritmii live și rula reglări de hiperparametri direct din browser:
+* **URL Aplicație**: [https://spotify-tracks-clustering-qq5xqrxp5q-uc.a.run.app](https://spotify-tracks-clustering-qq5xqrxp5q-uc.a.run.app)
+* **Funcționalități Cloud**:
+  - Compararea grafică și metrică a celor 10+ algoritmi cu Plotly (interactiv, hover pe melodii).
+  - Sandbox de reglare paralelă a hiperparametrilor (folosind job-uri multi-core paralele).
+  - Simulator de rutare în timp real pentru *Meta Song Learner*.
+
+---
+
+## 5. Structura Fișierelor din Workspace pentru Prezentare
+* Aplicația Streamlit principală: [app.py](file:///Users/mihai/Spotify-Tracks/app.py)
+* Dockerfile de containerizare: [Dockerfile](file:///Users/mihai/Spotify-Tracks/Dockerfile)
 * Script de bază clusterizare echilibrată: [run_balanced_clustering.py](file:///Users/mihai/Spotify-Tracks/run_balanced_clustering.py)
 * Raport Studiu (Echilibrare & Algoritm Ungar): [Hungarian_Balanced_Clustering.md](file:///Users/mihai/Spotify-Tracks/Hungarian_Balanced_Clustering.md)
 * Notebook de Analiză Interactivă: [balanced_clustering_analysis.ipynb](file:///Users/mihai/Spotify-Tracks/notebooks/balanced_clustering_analysis.ipynb)
 * Grafice Cheie:
   * Distribuții preprocesate: [feature_distributions_comparison.png](file:///Users/mihai/Spotify-Tracks/output/feature_distributions_comparison.png)
   * Proiecție PCA Clustere: [balanced_vs_standard_clusters.png](file:///Users/mihai/Spotify-Tracks/output/balanced_vs_standard_clusters.png)
+
