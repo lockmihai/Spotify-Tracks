@@ -59,7 +59,7 @@ st.markdown("""
         font-family: 'Outfit', sans-serif;
     }
 </style>
-""", unsafe_style=True)
+""", unsafe_allow_html=True)
 
 # ==========================================
 # CACHED DATA LOADING & SAMPLING
@@ -178,7 +178,7 @@ if app_tab == "Dashboard Comparativ":
         model = BisectingKMeans(n_clusters=n_clusters, random_state=42)
         labels = model.fit_predict(X_scaled)
     elif algorithm == "Gaussian Mixture (EM)":
-        model = GaussianMixture(n_clusters=n_clusters, random_state=42)
+        model = GaussianMixture(n_components=n_clusters, random_state=42)
         labels = model.fit_predict(X_scaled)
     elif algorithm == "DBSCAN":
         model = DBSCAN(eps=eps, min_samples=min_samples)
@@ -346,10 +346,12 @@ elif app_tab == "Meta Song Learner":
     with st.spinner("Se antrenează serviciul extern de clasificare și modelele locale de Grid Search (poate dura câteva secunde)..."):
         # Load representative sample
         df_meta_sample = get_stratified_sample(2500)
-        X_meta = StandardScaler().fit_transform(df_meta_sample[features].values)
+        scaler = StandardScaler()
+        X_meta = scaler.fit_transform(df_meta_sample[features].values)
         genres_meta = df_meta_sample['track_genre'].values
         
         meta_learner = MetaSongLearner()
+        meta_learner.scaler = scaler
         meta_learner.fit(X_meta, genres_meta)
         
     st.success("Meta Song Learner este antrenat și pregătit pentru rutare!")
@@ -427,7 +429,7 @@ elif app_tab == "Meta Song Learner":
             <h4 style="margin:0; color:#1db954;">Rezultat Final Rutare:</h4>
             <p style="margin:5px 0 0 0; font-size:18px;">Piesa a fost atribuită la: <strong>Clusterul {predicted_cluster}</strong> din sub-grupul <strong>{predicted_style}</strong></p>
         </div>
-        """, unsafe_style=True)
+        """, unsafe_allow_html=True)
 
 # ==========================================
 # TAB 4: CLOUD TUNING SANDBOX
@@ -468,7 +470,7 @@ elif app_tab == "Cloud Parameter Tuning Sandbox":
                         m = KMeans(n_clusters=k, random_state=42, n_init=3)
                         lbls = m.fit_predict(X_data)
                     elif alg == "Gaussian Mixture":
-                        m = GaussianMixture(n_clusters=k, random_state=42, n_init=1)
+                        m = GaussianMixture(n_components=k, random_state=42, n_init=1)
                         lbls = m.fit_predict(X_data)
                     
                     # Compute score
@@ -509,7 +511,7 @@ elif app_tab == "Cloud Parameter Tuning Sandbox":
                     <h4 style="margin:0; color:#1db954;">Cea mai bună configurație găsită:</h4>
                     <p style="margin:5px 0 0 0; font-size:18px;">Algoritm: <strong>{best_config['Algoritm']}</strong> | K: <strong>{best_config['K']}</strong> | Scor Silhouette: <strong>{best_config['Silhouette']:.4f}</strong></p>
                 </div>
-                """, unsafe_style=True)
+                """, unsafe_allow_html=True)
             
             # Display results leaderboard
             st.subheader("Leaderboard Performanță Hiperparametri")

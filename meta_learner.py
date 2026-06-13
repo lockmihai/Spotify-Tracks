@@ -82,11 +82,15 @@ class MetaSongLearner(BaseEstimator, ClusterMixin):
         self.style_models = {}
         self.style_scalers = {}
         self.unique_styles_ = []
+        self.style_classifier = self.classifier
+        self.X_styles = {}
         
     def fit(self, X, genres):
         # 1. Map genres to 5 broad styles
         styles = np.array([map_genre_to_style(g) for g in genres])
         self.unique_styles_ = np.unique(styles)
+        self.style_classifier = self.classifier
+        self.X_styles = {}
         
         # 2. Fit the style classifier (External Service)
         print(f"Fitting Style Classifier (External Service) on {X.shape[0]} samples...")
@@ -105,12 +109,14 @@ class MetaSongLearner(BaseEstimator, ClusterMixin):
                 fallback = KMeans(n_clusters=2, random_state=42, n_init=5)
                 fallback.fit(X_style)
                 self.style_models[style] = ('KMeansFallback', fallback)
+                self.X_styles[style] = X_style
                 continue
                 
             # Scale subset separately
             scaler = StandardScaler()
             X_style_scaled = scaler.fit_transform(X_style)
             self.style_scalers[style] = scaler
+            self.X_styles[style] = X_style_scaled
             
             # Grid search candidates
             best_score = -2.0
